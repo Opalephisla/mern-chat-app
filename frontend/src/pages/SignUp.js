@@ -1,6 +1,6 @@
 import { React, useState } from "react"
 import { Row, Col, Button, Container, Form } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useSignupUserMutation } from "../services/appApi"
 import "./SignUp.css"
 import botImg from "../assets/botimg.jpg"
@@ -10,11 +10,11 @@ export default function SignUp() {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [signupUser, { isLoading, error }] = useSignupUserMutation()
+  const navigate = useNavigate()
   // image upload states
   const [image, setImage] = useState(null)
   const [uploadingImg, setUploadingImg] = useState(false)
   const [imagePreview, setImagePreview] = useState(null)
-
   function validateImg(e) {
     const file = e.target.files[0]
     if (file.size >= 1048576) {
@@ -61,6 +61,7 @@ export default function SignUp() {
     }).then(({ data }) => {
       if (data) {
         console.log(data)
+        navigate("/chat")
       }
     })
   }
