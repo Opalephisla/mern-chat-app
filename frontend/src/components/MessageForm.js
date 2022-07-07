@@ -60,7 +60,7 @@ function MessageForm() {
             className="alert alert-info position-relative conversation-info"
             style={{ margin: 5 }}
           >
-            Your chat with {privateMemberMsg.name}{" "}
+            Your chat with {privateMemberMsg.name}
             <img
               src={privateMemberMsg.picture}
               className="conversation-profile-pic"

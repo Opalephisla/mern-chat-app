@@ -74,6 +74,7 @@ export default function SignUp() {
           className="d-flex align-items-center justify-content-center flex-direction-column"
         >
           <Form style={{ width: "80%", maxWidth: 500 }} onSubmit={handleSignup}>
+            {error && <p className="alert alert-danger">{error.data}</p>}
             <h1 className="text-center">Create your account</h1>
             <div className="signup-profile-pic__container">
               <img
@@ -123,7 +124,7 @@ export default function SignUp() {
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              {uploadingImg ? "Signing you up..." : "Signup"}
+              {uploadingImg || isLoading ? "Signing you up..." : "Signup"}
             </Button>
             <div className="py-4">
               <p className="text-center">

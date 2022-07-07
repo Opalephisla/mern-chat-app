@@ -1,5 +1,5 @@
 import { React, useContext, useState } from "react"
-import { Row, Col, Button, Container, Form } from "react-bootstrap"
+import { Row, Col, Button, Container, Form, Spinner } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import { AppContext } from "../context/appContext"
 import { useLoginUserMutation } from "../services/appApi"
@@ -13,15 +13,11 @@ export default function Login() {
   const { socket } = useContext(AppContext)
   function handleLogin(e) {
     e.preventDefault()
-    // login logic
-    loginUser({
-      email,
-      password,
-    }).then(({ data }) => {
-      //socket work
-      socket.emit("new-user")
-      //navigate to the chat
-      navigate("/chat")
+    loginUser({ email, password }).then(({ data }) => {
+      if (data) {
+        socket.emit("new-user")
+        navigate("/chat")
+      }
     })
   }
   return (
@@ -34,6 +30,7 @@ export default function Login() {
         >
           <Form style={{ width: "80%", maxWidth: 500 }} onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
+              {error && <p className="alert alert-danger">{error.data}</p>}
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
@@ -58,7 +55,7 @@ export default function Login() {
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              Login
+              {isLoading ? <Spinner animation="grow" /> : "Login"}
             </Button>
             <div className="py-4">
               <p className="text-center">
